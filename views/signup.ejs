@@ -46,6 +46,7 @@
                     let lName = $('#lName').val();
                     let email = $('#email').val();
                     let errorMsg = [];
+                    //Checks for errors in the input of the username
                     if (!user || !password || !fName || !lName || !email) {
                         errorMsg.push('Please Fill in all Fields')
                     }
@@ -61,12 +62,14 @@
                     }
                         //POST request to signup service if no errors occur
                         if (errorMsg.length === 0) {
-                            $.post('/signup', { username: user, password: password, fname: fName, lname: lName, email: email }, function (res) {
-                                //Redirects to login page
-                                window.location.replace("/login");
+                            $.post('/signup', { username: user, password: password, fName: fName, lName: lName, email: email }, function (res) {
+                                //Redirects to login page or displays error if user with user is already found
+                                console.log(res);
+                                if(res === 'completed') window.location.replace("/login");
+                                else $('#errorMessages').text('User might already exist')
                             })
                         }
-                        //Stay on page and display first error under iput boxes
+                        //Stay on page and display first error under input boxes
                         else{
                             $('#errorMessages').text(errorMsg[0]);
                         }

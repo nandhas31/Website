@@ -20,23 +20,24 @@
     <div class='main'>
         <div class='objects'>
             <p> Sign Up</p>
-
-            <input class=box type="text" name="username" id="username" placeholder="Username" />
-            </br>
-            <input class=box type="password" name="password" id="password" placeholder="Password" />
-            </br>
-            <button class=box button id='submitButton' type="submit">Click</button>
-            <p class='errorMessages' id='errorMessages'></p>
+            <form action='/login' method="POST">
+                <input class=box type="text" name="username" id="username" placeholder="Username" />
+                </br>
+                <input class=box type="password" name="password" id="password" placeholder="Password" />
+                </br>
+                <input class=box button id='submitButton' type="submit"/>
+                <p class='errorMessages' id='errorMessages'></p>
+            </form>
         </div>
     </div>
     <script>
-        $('#submitButton').on('click', ()=>{
-            if(!$('#username') || !$('#password')){
+        $('#sucbmitButton').on('click', () => {
+            if (!$('#username') || !$('#password')) {
                 $('#submitButton').text('Please fill in all fields');
             }
-            else{
-                $.post('/login', res =>{
-                    
+            else {
+                $.post('/login', res => {
+
                 })
             }
         })
