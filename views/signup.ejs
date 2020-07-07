@@ -13,7 +13,7 @@
                 <a href="/signup">Signup</a>
             </li>
             <li>
-                <a href="/">Login</a>
+                <a href="/login">Login</a>
             </li>
         </ul>
     </header>
@@ -39,7 +39,10 @@
                     var re = /\S+@\S+\.\S+/;
                     return re.test(email);
                 }
-                $(document).on('click', function () {
+                $(document).on('load', function(){
+                    $('#errorMessages').text('')
+                })
+                $('#submitButton').on('click', function () {
                     let user = $('#user').val();
                     let password = $('#password').val();
                     let fName = $('#fName').val();

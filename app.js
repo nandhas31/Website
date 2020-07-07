@@ -3,9 +3,10 @@ const app = express();
 const bodyParser = require('body-parser');
 const dbConnect = require('./db/connect');
 const passport = require('passport');
+var passportInit = require('./passport/passportInit');
 const LocalStrategy = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser');
-const User = require('./User.js');
+const User = require('./db/User');
 const mongoose = require('mongoose');
 const session = require("express-session");
 app.use(bodyParser.urlencoded({
@@ -42,19 +43,20 @@ app.post('/signup', (req, res) => {
       console.log(err)
       return res.end('db error');
     })
-
-    
-
-
 })
-app.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
-      if (err) { return next(err); }
-      if (!user) { return res.redirect('/login'); }
+//logs in user
+app.post('/login', function(req, res, next) {  
+  passport.authenticate('local', function(err, user, info) {
+      if (err) { return next(err); 
+      }
+      if (!user) { 
+        console.log('made it here')
+        return res.redirect('/login');  
+    }
       req.logIn(user, function(err) {
         if (err) { return next(err); }
         console.log('login success');
-        return res.redirect('/users/' + user.username);
+        return res.redirect('/dashboard');
       });
     })(req, res, next);
   });
@@ -64,37 +66,10 @@ app.get('/login', (req, res) => {
 })
 
 
+app.get('/dashboard', (req, res) =>{
+  res.render('dashboard', {user:req.user})
+})
 app.listen(8080, () => {
     console.log('app running on port 8080')
 })
 
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-            User.findOne({ username: username }, function (err, user) {
-                if (err) { return done(err); }
-                if (!user) {
-              
-                    return done(null, false, { message: 'Incorrect username.' });
-                }
-                if (!user.password === password) {
-         
-                    return done(null, false, { message: 'Incorrect password.' });
-                }
-    
-                return done(null, user);
-            });
-    }
-));
-const db = 'mongodb://localhost:27017' //require("./config/keys").MongoURI;
-mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
- .then(() => console.log('MongoDB Connected'))
- .catch(err => console.log(err)); 
-passport.serializeUser(function(user, done) {
-    done(null, user._id);
-  });
-  
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
-    });
-  });
