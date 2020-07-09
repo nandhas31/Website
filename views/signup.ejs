@@ -21,25 +21,25 @@
         <div class='objects'>
             <p> Sign Up</p>
 
-            <input class=box type="text" name="user" id="user" placeholder="Username" />
+            <input class='box' type="text" name="user" id="user" placeholder="Username" />
             </br>
-            <input class=box type="password" name="pass" id="password" placeholder="Password" />
+            <input class='box' type="password" name="pass" id="password" placeholder="Password" />
             </br>
-            <input class=box type="text" name="fName" id="fName" placeholder="First Name" />
+            <input class='box' type="text" name="fName" id="fName" placeholder="First Name" />
             </br>
-            <input class=box type="text" name="lName" id="lName" placeholder="Last Name" />
+            <input class='box' type="text" name="lName" id="lName" placeholder="Last Name" />
             </br>
-            <input class=box type="email" name="email" id="email" placeholder="E-Mail" />
+            <input class='box' type="email" name="email" id="email" placeholder="E-Mail" />
             </br>
-            <button class=box button id='submitButton' type="submit">Click</button>
-            <p class = 'errorMessages' id = 'errorMessages'></p>
+            <button class='button' button id='submitButton' type="submit">Click</button>
+            <p class='errorMessages' id='errorMessages'></p>
             <script>
                 //check is given email is in correct email format
                 function validateEmail(email) {
                     var re = /\S+@\S+\.\S+/;
                     return re.test(email);
                 }
-                $(document).on('load', function(){
+                $(document).on('load', function () {
                     $('#errorMessages').text('')
                 })
                 $('#submitButton').on('click', function () {
@@ -60,22 +60,22 @@
                         errorMsg.push('Password must be at least six characters');
                     }
 
-                    if (!validateEmail(email)){
+                    if (!validateEmail(email)) {
                         errorMsg.push('Invalid Email');
                     }
-                        //POST request to signup service if no errors occur
-                        if (errorMsg.length === 0) {
-                            $.post('/signup', { username: user, password: password, fName: fName, lName: lName, email: email }, function (res) {
-                                //Redirects to login page or displays error if user with user is already found
-                                console.log(res);
-                                if(res === 'completed') window.location.replace("/login");
-                                else $('#errorMessages').text('User might already exist')
-                            })
-                        }
-                        //Stay on page and display first error under input boxes
-                        else{
-                            $('#errorMessages').text(errorMsg[0]);
-                        }
+                    //POST request to signup service if no errors occur
+                    if (errorMsg.length === 0) {
+                        $.post('/signup', { username: user, password: password, fName: fName, lName: lName, email: email }, function (res) {
+                            //Redirects to login page or displays error if user with user is already found
+                            console.log(res);
+                            if (res === 'completed') window.location.replace("/login");
+                            else $('#errorMessages').text('User might already exist')
+                        })
+                    }
+                    //Stay on page and display first error under input boxes
+                    else {
+                        $('#errorMessages').text(errorMsg[0]);
+                    }
                 })
 
             </script>
