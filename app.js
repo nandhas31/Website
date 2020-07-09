@@ -70,6 +70,11 @@ app.get('/login', (req, res) => {
 app.get('/dashboard', (req, res) => {
   res.render('dashboard', { user: req.user })
 })
+//logs out user
+app.get('/logout', (req, res)=>{
+  req.logout();
+  res.render('login', {errMsg: 'Successfully logged out'});
+})
 app.listen(8080, () => {
   console.log('app running on port 8080')
 })
