@@ -18,7 +18,7 @@ sudo mongod --dbpath /path/to/data
 ```
 
 NodeJS and NPM
-<a href = 'https://nodejs.org/en/download/'>Installation</a>
+<a href = 'https://nodejs.org/en/download/'>Installation</a></br>
 Verify by running
 ```
 node -v
