@@ -2,12 +2,31 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="stylesheet" type="text/css" href="/dashboard.css" />
 </head>
 
 <body>
-    <h2>Welcome <%= user.fName %></h2>
-    <button class = 'button'><a href = '/logout'>Logout</a></button>
+    <header>
+        <ul>
+            <li class='logo'>
+                <p class='logo'>Logo</p>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="/signup">Signup</a>
+            </li>
+            <li>
+                <a href="/login">Login</a>
+            </li>
+        </ul>
+    </header>
+    <div class='container'>
+        <h2 class='banner'>Welcome
+            <%= user.fName %>
+        </h2>
+        <button class='button'><a href='/logout'>Logout</a></button>
+    </div>
 </body>
 
 </html>

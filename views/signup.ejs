@@ -9,6 +9,11 @@
 <body>
     <header>
         <ul>
+            <li class='logo'>
+                <p class='logo'>Logo</p>
+            </li>
+        </ul>
+        <ul>
             <li>
                 <a href="/signup">Signup</a>
             </li>
@@ -39,10 +44,10 @@
                     var re = /\S+@\S+\.\S+/;
                     return re.test(email);
                 }
-                $(document).on('load', function () {
+                $(document).on('load', function() {
                     $('#errorMessages').text('')
                 })
-                $('#submitButton').on('click', function () {
+                $('#submitButton').on('click', function() {
                     let user = $('#user').val();
                     let password = $('#password').val();
                     let fName = $('#fName').val();
@@ -65,7 +70,13 @@
                     }
                     //POST request to signup service if no errors occur
                     if (errorMsg.length === 0) {
-                        $.post('/signup', { username: user, password: password, fName: fName, lName: lName, email: email }, function (res) {
+                        $.post('/signup', {
+                            username: user,
+                            password: password,
+                            fName: fName,
+                            lName: lName,
+                            email: email
+                        }, function(res) {
                             //Redirects to login page or displays error if user with user is already found
                             console.log(res);
                             if (res === 'completed') window.location.replace("/login");
@@ -77,7 +88,6 @@
                         $('#errorMessages').text(errorMsg[0]);
                     }
                 })
-
             </script>
         </div>
     </div>

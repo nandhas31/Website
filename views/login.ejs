@@ -9,6 +9,11 @@
 <body>
     <header>
         <ul>
+            <li class='logo'>
+                <p class='logo'>Logo</p>
+            </li>
+        </ul>
+        <ul>
             <li>
                 <a href="/signup">Signup</a>
             </li>
@@ -26,7 +31,9 @@
                 <input class=box type="password" name="password" id="password" placeholder="Password" />
                 </br>
                 <input class=button button id='submitButton' type="submit" />
-                <p class='errorMessages' id='errorMessages'><%= errMsg ? errMsg : null%></p>
+                <p class='errorMessages' id='errorMessages'>
+                    <%= errMsg ? errMsg : null%>
+                </p>
             </form>
         </div>
     </div>
@@ -34,8 +41,7 @@
         $('#sucbmitButton').on('click', () => {
             if (!$('#username') || !$('#password')) {
                 $('#submitButton').text('Please fill in all fields');
-            }
-            else {
+            } else {
                 $.post('/login', res => {
 
                 })

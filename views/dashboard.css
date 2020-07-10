@@ -27,26 +27,6 @@ header {
     padding: 0;
 }
 
-.main {
-    position: absolute;
-    background-color: rgba(0, 0, 0, .5);
-    height: 500px;
-    width: 400px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.objects {
-    opacity: 1;
-    display: inline-block;
-    position: relative;
-    top: 15%;
-    color: white;
-    font-size: 30px;
-}
-
 .box {
     border-radius: 8px;
     border: 1.5px solid gray;
@@ -55,6 +35,10 @@ header {
     height: 8px;
     outline: none;
     margin: 5px;
+}
+
+.container {
+    padding: 10px;
 }
 
 .button {
@@ -107,4 +91,8 @@ a {
 .errorMessages {
     color: red;
     font-size: 15px;
+}
+
+.banner {
+    color: white;
 }
