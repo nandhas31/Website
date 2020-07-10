@@ -46,11 +46,11 @@ app.post('/login', function(req, res, next) {
             return next(err);
         }
         if (!user) {
-            return res.render('login', { errMsg: 'Incorrect Password' });
+            return res.end('error');
         }
         req.logIn(user, function(err) {
             if (err) { return next(err); }
-            return res.redirect('/dashboard');
+            return res.end('success');
         });
     })(req, res, next);
 });
@@ -61,7 +61,11 @@ app.get('/login', (req, res) => {
 
 
 app.get('/dashboard', (req, res) => {
-        res.render('dashboard', { user: req.user })
+        if (req.user)
+            res.render('dashboard', { user: req.user })
+        else {
+            res.redirect('/error');
+        }
     })
     //logs out user
 app.get('/logout', (req, res) => {

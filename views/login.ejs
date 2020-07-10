@@ -25,26 +25,34 @@
     <div class='main'>
         <div class='objects'>
             <p>Login</p>
-            <form action='/login' method="POST">
-                <input class=box type="text" name="username" id="username" placeholder="Username" />
-                </br>
-                <input class=box type="password" name="password" id="password" placeholder="Password" />
-                </br>
-                <input class=button button id='submitButton' type="submit" />
-                <p class='errorMessages' id='errorMessages'>
-                    <%= errMsg ? errMsg : null%>
-                </p>
-            </form>
+            <input class=box type="text" name="username" id="username" placeholder="Username" />
+            </br>
+            <input class=box type="password" name="password" id="password" placeholder="Password" />
+            </br>
+            <input class=button button id='submitButton' type="submit" />
+            <p class='errorMessages' id='errorMessages'>
+                <%= errMsg ? errMsg : null%>
+            </p>
         </div>
     </div>
     <script>
-        $('#sucbmitButton').on('click', () => {
-            if (!$('#username') || !$('#password')) {
-                $('#submitButton').text('Please fill in all fields');
+        $('#submitButton').on('click', () => {
+            if (!$('#username').val() || !$('#password').val()) {
+                $('#errorMessages').text('Please fill in all fields');
             } else {
-                $.post('/login', res => {
-
-                })
+                console.log('wow')
+                $.post('/login', {
+                        username: $('#username').val(),
+                        password: $('#password').val()
+                    },
+                    res => {
+                        console.log(res);
+                        if (res === 'success') {
+                            window.location.replace('/dashboard');
+                        } else {
+                            $('errorMessages').text('Incorrect Credentials')
+                        }
+                    })
             }
         })
     </script>
