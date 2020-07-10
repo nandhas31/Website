@@ -22,6 +22,8 @@ NodeJS and NPM
 Verify by running
 ```
 node -v
+```
 and 
 ```
 npm -v
+```
