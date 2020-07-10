@@ -15,7 +15,7 @@ MongoDB
 To Run:
 ```
 sudo mongod --dbpath /path/to/data
-
+```
 
 NodeJS and NPM
 <a href = 'https://nodejs.org/en/download/'>Installation</a>
@@ -24,6 +24,7 @@ Verify by running
 node -v
 ```
 and 
+
 ```
 npm -v
 ```
