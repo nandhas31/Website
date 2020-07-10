@@ -10,14 +10,14 @@ npm start
 Website can be found at 'localhost:8080/login'
 
 # External Dependencies
-MongoDB
-<a href = 'https://docs.mongodb.com/manual/installation/'>Installation</a>
+MongoDB:
+<a href = 'https://docs.mongodb.com/manual/installation/'>Installation</a></br>
 To Run:
 ```
 sudo mongod --dbpath /path/to/data
 ```
 
-NodeJS and NPM
+NodeJS and NPM:
 <a href = 'https://nodejs.org/en/download/'>Installation</a></br>
 Verify by running
 ```
