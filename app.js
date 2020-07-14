@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const User = require('./db/User');
 const mongoose = require('mongoose');
 const session = require("express-session");
+const bcrypt = require ('bcryptjs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"));
 app.use(session({ secret: "cats", resave: true, saveUninitialized: false }));
@@ -26,12 +27,20 @@ app.get('/signup', (req, res) => {
     //Check if user exists and if not adds to mongoDB users collection
 app.post('/signup', (req, res) => {
         const { username, password, fName, lName, email } = req.body;
+        
         const newUser = new User({ username, password, fName, lName, email });
         User.findOne({ username: username }).then(
             document => {
                 if (document) {
                     return res.end('failed');
                 }
+                bcrypt.genSalt(10, (err, salt)=>{
+                    bcrypt.hash(newUser.password, salt,(err, hash)=>{
+                        newUser.password = hash;
+                        newUser.save();
+                        res.end('completed');
+                    })
+                })
                 newUser.save();
                 return res.end('completed')
             }

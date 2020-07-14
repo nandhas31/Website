@@ -40,7 +40,6 @@
             if (!$('#username').val() || !$('#password').val()) {
                 $('#errorMessages').text('Please fill in all fields');
             } else {
-                console.log('wow')
                 $.post('/login', {
                         username: $('#username').val(),
                         password: $('#password').val()
