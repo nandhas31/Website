@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="html">
 
 <head>
+    <title>Sign Up</title>
     <link rel="stylesheet" type="text/css" href="/main.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
@@ -48,14 +49,14 @@
                     $('#errorMessages').text('')
                 })
                 $('#submitButton').on('click', function() {
-                    let user = $('#user').val();
+                    let username = $('#user').val();
                     let password = $('#password').val();
                     let fName = $('#fName').val();
                     let lName = $('#lName').val();
                     let email = $('#email').val();
                     let errorMsg = [];
                     //Checks for errors in the input of the username
-                    if (!user || !password || !fName || !lName || !email) {
+                    if (!username || !password || !fName || !lName || !email) {
                         errorMsg.push('Please Fill in all Fields')
                     }
                     if (user.length < 6) {
@@ -80,6 +81,7 @@
                             //Redirects to login page or displays error if user with user is already found
                             console.log(res);
                             if (res === 'completed') window.location.replace("/login");
+                            else if (res === 'missinginfo') $('#errorMessages').text('Fill in all fields');
                             else $('#errorMessages').text('User might already exist')
                         })
                     }

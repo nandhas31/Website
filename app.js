@@ -9,7 +9,8 @@ const cookieParser = require('cookie-parser');
 const User = require('./db/User');
 const mongoose = require('mongoose');
 const session = require("express-session");
-const bcrypt = require ('bcryptjs')
+const bcrypt = require ('bcryptjs');
+const validateEmail = require('./util/validateEmail');
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"));
 app.use(session({ secret: "cats", resave: true, saveUninitialized: false }));
@@ -26,8 +27,13 @@ app.get('/signup', (req, res) => {
     })
     //Check if user exists and if not adds to mongoDB users collection
 app.post('/signup', (req, res) => {
-        const { username, password, fName, lName, email } = req.body;
         
+        const { username, password, fName, lName, email } = req.body;
+        if (!username ||!password ||!fName ||!lName ||!email){  
+            return res.end('missinginfo');
+        }
+        if (!validateEmail(email)) return res.end('missinginfo');
+        if (password.length < 6 || username.length < 6) return res.end('missinginfo');
         const newUser = new User({ username, password, fName, lName, email });
         User.findOne({ username: username }).then(
             document => {
@@ -36,6 +42,7 @@ app.post('/signup', (req, res) => {
                 }
                 bcrypt.genSalt(10, (err, salt)=>{
                     bcrypt.hash(newUser.password, salt,(err, hash)=>{
+                        if (err) throw err;
                         newUser.password = hash;
                         newUser.save();
                         res.end('completed');
