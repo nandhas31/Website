@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Edit Page</title>
+    <link rel="stylesheet" type="text/css" href="/edit.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li class='logo'>
+                <p class='logo'>Logo</p>
+            </li>
+        </ul>
+        <ul class="headerList">
+            <li class="headerItem">
+                <a href="/edit">Edit Profile</a>
+            </li>
+        </ul>
+    </header>
+    <div class="container">
+        <div class='box1'>
+            <ul class="menuList">
+                <li class = "changePassword">Change Password</li>
+                <li class = "edit">Edit Personal Details</li>
+                <li class = "delete">Delete Account</li>
+                <a href="/dashboard">
+                    <li>Back</li>
+                </a>
+            </ul>
+        </div>
+        <div class='box2'>
+            <div class = changePasswordElements>
+                <p>Current Password</p>
+                <input type = 'password' class = 'passwordBox'/>
+                <p>New Password</p>
+                <input type = 'password' class = 'newPasswordBox'/>
+                <p>Retype New Password</p>
+                <input type = 'password' class = 'retypeNewPasswordBox'/>
+                <button class = 'changePasswordSubmitButton'>Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(".changePassword").on('click', ()=>{
+        $(".changePasswordElements").css('display', 'block')
+    })
+    $(".changePasswordSubmitButton").on('click',()=>{
+        console.log('here');
+        if ($(".newPasswordBox").val() === $(".retypeNewPasswordBox").val()){
+            if ($(".newPasswordBox").val().length >= 6){
+            $.post('/changePassword', {newPassword: $(".newPasswordBox").val(), oldPassword: $(".passwordBox").val()}, res => {
+                console.log(res);
+            })
+        }
+    }
+        else{
+            console.log($(".newPasswordBox").val() +   $(".retypeNewPasswordBox").val())
+        }     
+    })
+</script>
+
+</html>

@@ -80,13 +80,42 @@ app.get('/dashboard', (req, res) => {
         if (req.user)
             res.render('dashboard', { user: req.user })
         else {
-            res.redirect('/error');
+            res.render('login', {errMsg:null});
         }
     })
     //logs out user
 app.get('/logout', (req, res) => {
     req.logout();
     res.render('login', { errMsg: 'Successfully logged out' });
+})
+
+app.get('/edit', (req, res)=>{
+    if (!req.user) return res.render('login', {errMsg:null});
+    res.render('edit');
+})
+app.post('/changePassword', (req, res) =>{
+    if (!req.user) return res.end('error');
+    bcrypt.compare(req.body.oldPassword, req.user.password).then(
+        result =>{
+            if (!result) res.end('wrongpassword');
+            else {
+                bcrypt.genSalt(10, (err, salt)=>{
+                    bcrypt.hash(req.body.newPassword, salt,(err, hash)=>{
+                        if (err) throw err;
+                        User.findOneAndUpdate({username:req.user.username, password:req.user.password}, {password:hash}, (err, doc)=>{
+                            if (err) {
+                                res.end('error');
+                                throw err;
+                            }
+                            else{
+                                res.end('completed');
+                            }
+                        })
+                    })
+                })
+                
+            }
+        }).catch(err =>{throw err})
 })
 app.listen(8080, () => {
     console.log('app running on port 8080')

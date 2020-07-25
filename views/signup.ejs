@@ -27,7 +27,7 @@
         <div class='objects'>
             <p> Sign Up</p>
 
-            <input class='box' type="text" name="user" id="user" placeholder="Username" />
+            <input class='box' type="text" name="user" id="username" placeholder="Username" />
             </br>
             <input class='box' type="password" name="pass" id="password" placeholder="Password" />
             </br>
@@ -49,7 +49,7 @@
                     $('#errorMessages').text('')
                 })
                 $('#submitButton').on('click', function() {
-                    let username = $('#user').val();
+                    let username = $('#username').val();
                     let password = $('#password').val();
                     let fName = $('#fName').val();
                     let lName = $('#lName').val();
@@ -59,7 +59,7 @@
                     if (!username || !password || !fName || !lName || !email) {
                         errorMsg.push('Please Fill in all Fields')
                     }
-                    if (user.length < 6) {
+                    if (username.length < 6) {
                         errorMsg.push('Username must be at least six characters');
                     }
                     if (password.length < 6) {
@@ -72,7 +72,7 @@
                     //POST request to signup service if no errors occur
                     if (errorMsg.length === 0) {
                         $.post('/signup', {
-                            username: user,
+                            username: username,
                             password: password,
                             fName: fName,
                             lName: lName,
