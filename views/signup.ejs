@@ -77,12 +77,11 @@
                             fName: fName,
                             lName: lName,
                             email: email
-                        }, function(res) {
+                        }, res => {
                             //Redirects to login page or displays error if user with user is already found
                             console.log(res);
-                            if (res === 'completed') window.location.replace("/login");
-                            else if (res === 'missinginfo') $('#errorMessages').text('Fill in all fields');
-                            else $('#errorMessages').text('User might already exist')
+                            if (res.success) window.location.replace("/login");
+                            else $('#errorMessages').text(res.message);
                         })
                     }
                     //Stay on page and display first error under input boxes

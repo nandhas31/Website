@@ -46,11 +46,10 @@
                         password: $('#password').val()
                     },
                     res => {
-                        console.log(res);
-                        if (res === 'success') {
+                        if (res.success) {
                             window.location.replace('/dashboard');
                         } else {
-                            $('errorMessages').text('Incorrect Credentials')
+                            $('#errorMessages').text(res.message)
                         }
                     })
             }

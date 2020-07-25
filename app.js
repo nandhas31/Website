@@ -30,29 +30,29 @@ app.post('/signup', (req, res) => {
         
         const { username, password, fName, lName, email } = req.body;
         if (!username ||!password ||!fName ||!lName ||!email){  
-            return res.end('missinginfo');
+            return res.send({success:false, message:'Missing Info'});
         }
-        if (!validateEmail(email)) return res.end('missinginfo');
+        if (!validateEmail(email)) return res.send({success:false, message:'Invalid Email'});
         if (password.length < 6 || username.length < 6) return res.end('missinginfo');
         const newUser = new User({ username, password, fName, lName, email });
         User.findOne({ username: username }).then(
             document => {
                 if (document) {
-                    return res.end('failed');
+                    return res.send({success:false, message:'failed'});
                 }
                 bcrypt.genSalt(10, (err, salt)=>{
                     bcrypt.hash(newUser.password, salt,(err, hash)=>{
                         if (err) throw err;
                         newUser.password = hash;
                         newUser.save();
-                        res.end('completed');
+                        res.send({success: true, message: 'completed'});
                     })
                 })
                 newUser.save();
-                return res.end('completed')
+                return res.send({success:true, message:'completed'})
             }
         ).catch(err => {
-            return res.end('db error');
+            return res.send({success:false, message:'db error'});
         })
     })
     //logs in user
@@ -62,11 +62,11 @@ app.post('/login', function(req, res, next) {
             return next(err);
         }
         if (!user) {
-            return res.end('error');
+            return res.send({success:false, message: 'Invalid Credentials'});
         }
         req.logIn(user, function(err) {
             if (err) { return next(err); }
-            return res.end('success');
+            return res.send({success: true,message:'success'});
         });
     })(req, res, next);
 });
@@ -94,21 +94,21 @@ app.get('/edit', (req, res)=>{
     res.render('edit');
 })
 app.post('/changePassword', (req, res) =>{
-    if (!req.user) return res.end('error');
+    if (!req.user) return res.send({success:false, message:'Forbidden'});
     bcrypt.compare(req.body.oldPassword, req.user.password).then(
         result =>{
-            if (!result) res.end('wrongpassword');
+            if (!result) res.send({sucess:false, message:'Wrong Password'});
             else {
                 bcrypt.genSalt(10, (err, salt)=>{
                     bcrypt.hash(req.body.newPassword, salt,(err, hash)=>{
                         if (err) throw err;
                         User.findOneAndUpdate({username:req.user.username, password:req.user.password}, {password:hash}, (err, doc)=>{
                             if (err) {
-                                res.end('error');
+                                res.send({success:false, message:'unknown error'});
                                 throw err;
                             }
                             else{
-                                res.end('completed');
+                                res.send({success:true,message:'completed'});
                             }
                         })
                     })
