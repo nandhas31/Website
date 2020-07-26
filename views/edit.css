@@ -110,6 +110,6 @@ a {
     margin:20px; 
 }
 
-.changePasswordElements{
+.changePasswordElements, .deleteUserElements{
     display: none;
 }

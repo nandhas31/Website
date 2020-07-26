@@ -23,44 +23,79 @@
     <div class="container">
         <div class='box1'>
             <ul class="menuList">
-                <li class = "changePassword">Change Password</li>
-                <li class = "edit">Edit Personal Details</li>
-                <li class = "delete">Delete Account</li>
+                <li class="changePassword">Change Password</li>
+                <li class="edit">Edit Personal Details</li>
+                <li class="delete">Delete Account</li>
                 <a href="/dashboard">
                     <li>Back</li>
                 </a>
             </ul>
         </div>
         <div class='box2'>
-            <div class = changePasswordElements>
+            <div class=changePasswordElements>
                 <p>Current Password</p>
-                <input type = 'password' class = 'passwordBox'/>
+                <input type='password' id='passwordBox' />
                 <p>New Password</p>
-                <input type = 'password' class = 'newPasswordBox'/>
+                <input type='password' id='newPasswordBox' />
                 <p>Retype New Password</p>
-                <input type = 'password' class = 'retypeNewPasswordBox'/>
-                <button class = 'changePasswordSubmitButton'>Submit</button>
+                <input type='password' id='retypeNewPasswordBox' />
+                <button id='changePasswordSubmitButton'>Submit</button>
+            </div>
+            <div class=deleteUserElements>
+                <p>Username</p>
+                <input type='text' id='usernameBoxDelete' />
+                <p>Password</p>
+                <input type='password' id='passwordBoxDelete' />
+                <p>Type Confirm</p>
+                <input type='text' id='confirmBoxDelete' />
+                <button id='deleteUserSubmitButton'>Submit</button>
             </div>
         </div>
     </div>
 </body>
 <script>
-    $(".changePassword").on('click', ()=>{
+    function clear() {
+        $(".changePasswordElements").css('display', 'none')
+        $(".deleteUserElements").css('display', 'none')
+        $(".changePasswordElements").css('display', 'none')
+    }
+    $(".changePassword").on('click', () => {
+        clear();
         $(".changePasswordElements").css('display', 'block')
+
     })
-    $(".changePasswordSubmitButton").on('click',()=>{
-        console.log('here');
-        if ($(".newPasswordBox").val() === $(".retypeNewPasswordBox").val()){
-            if ($(".newPasswordBox").val().length >= 6){
-            $.post('/changePassword', {newPassword: $(".newPasswordBox").val(), oldPassword: $(".passwordBox").val()}, res => {
-                console.log(res);
+    $(".delete").on('click', () => {
+        clear();
+        $(".deleteUserElements").css('display', 'block')
+    })
+    $(".changePasswordSubmitButton").on('click', () => {
+        if ($("#newPasswordBox").val() === $("#retypeNewPasswordBox").val()) {
+            if ($("#newPasswordBox").val().length >= 6) {
+                $.post('/changePassword', { newPassword: $("#newPasswordBox").val(), oldPassword: $("#passwordBox").val() }, res => {
+                    console.log(res);
+                })
+            }
+        }
+        else {
+            console.log($("#newPasswordBox").val() + $("#retypeNewPasswordBox").val())
+        }
+    })
+    $("#deleteUserSubmitButton").on('click',()=>{
+        if (!$(".usernameBoxDelete").val() && !$("#passwordBoxDelete").val() && !$("#confirmBoxDelete").val()){
+            return; 
+        }
+        else if($("#confirmBoxDelete").val()!=='confirm'){
+            return;
+        }
+        else{
+            $.post('/delete', {username:$("#usernameBoxDelete").val(),password:$("#passwordBoxDelete").val()}, res=>{
+
             })
         }
-    }
-        else{
-            console.log($(".newPasswordBox").val() +   $(".retypeNewPasswordBox").val())
-        }     
+
+
     })
+
 </script>
 
 </html>
